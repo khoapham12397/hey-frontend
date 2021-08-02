@@ -2,9 +2,10 @@ import {combineReducers} from "redux";
 import chatReducer from "./chatReducer";
 import addressBookReducer from "./addressBookReducer";
 import userReducer from "./userReducer";
+import walletReducer from "./walletReducer"
 
 const appReducer = combineReducers({
-  chatReducer, addressBookReducer, userReducer
+  chatReducer, addressBookReducer, userReducer, walletReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -39,7 +39,7 @@ export default function reduce(state = initialState, action) {
     case ADD_FRIEND_POPUP_STATE:
       return {
         ...state,
-        addFriendPopup: action.popupstate
+        addFriendPopup: action.popupstate,
       }
     default:
       return state;
