@@ -2,12 +2,14 @@ import { TOP_UP,
     TRANSFER, 
     BALANCE,
     REGISTER,
-    REGISTER_WALLET_POPUP_STATE 
+    REGISTER_WALLET_POPUP_STATE,
+    TOPUP_WALLET_POPUP_STATE,
 } from "../actions/walletAction";
 
 const initialState = {
     user: {},
     registerWalletPopup: false,
+    topUpPopup: false,
 }
 
 export default function reduce(state = initialState, action) {
@@ -20,7 +22,7 @@ export default function reduce(state = initialState, action) {
         case TOP_UP:
             return {
                 ...state,
-                balance: action.balance,
+                balance: state.balance + action.amount,
             }
         case REGISTER:
             return {
@@ -31,6 +33,11 @@ export default function reduce(state = initialState, action) {
             return {
                 ...state,
                 registerWalletPopup: action.popupstate,
+            }
+        case TOPUP_WALLET_POPUP_STATE:
+            return {
+                ...state,
+                topUpPopup: action.popupstate,
             }
         default:
             return state;

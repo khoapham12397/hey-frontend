@@ -3,7 +3,7 @@ import { Button, Icon, Input, Layout, Menu } from "antd";
 import CustomAvatar from "../components/custom-avatar";
 import ChatList from "../components/chat-list";
 import AddressBook from "../components/address-book";
-import Wallet from "../components/wallet"
+import Wallet from "../components/wallet";
 import ChatHeader from "../components/chat-header";
 import Profile from "../components/profile";
 import MessagePanel from "../components/message-panel";
@@ -17,7 +17,8 @@ import { connect } from "react-redux";
 import { isAuthenticated, isEmptyString } from "../utils/utils";
 import { Redirect } from "react-router-dom";
 import $ from "jquery";
-import {api} from '../api/api';
+import { api } from "../api/api";
+import { getUserIdFromStorage } from "../utils/utils";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { TextArea } = Input;
@@ -61,7 +62,7 @@ class Main extends React.Component {
     }
     $("#messageTextArea").val("");
   }
-  
+
   render() {
     if (isAuthenticated()) {
       return <Redirect to="/login" />;
@@ -95,25 +96,42 @@ class Main extends React.Component {
               <Menu.Item key="3">
                 <Icon type="wallet" style={{ fontSize: 30 }}></Icon>
               </Menu.Item>
-              <button style = {{width : "80px", height: "40px", color: "black"}}
-                onClick ={e=>{
-
-                  api.get('http://localhost:8081/api/wallet/protected/getBalance',null)
-                  .then(res=> {alert(JSON.stringify(res));});
-                }}>balance</button>
-                <button style = {{width : "80px", height: "40px", color: "black"}}
-                onClick ={e=>{
-                
-                  api.get('http://localhost:8081/api/wallet/protected/profile',null)
-                  .then(res=> {alert(JSON.stringify(res));});
-                }}>profile</button>
-                  <button style = {{width : "80px", height: "40px", color: "black"}}
-                onClick ={e=>{
-                  let payload ={hashedPin : 'e10adc3949ba59abbe56e057f20f883e', identity: '211122223',
-                  email : 'xyz@gmail.com' , phone :'2000111100'};
-                  api.post('http://localhost:8081/api/wallet/protected/registerWallet',JSON.stringify(payload))
-                  .then(res=> {alert(JSON.stringify(res));});
-                }}>registerWallet</button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/wallet/protected/topup", {
+                      pin: "e10adc3949ba59abbe56e057f20f883e",
+                      amount: 10000,
+                    })
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                TopUp
+              </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  let payload = {
+                    hashedPin: "e10adc3949ba59abbe56e057f20f883e",
+                    identity: "211122223",
+                    email: "xyz@gmail.com",
+                    phone: "2000111100",
+                  };
+                  api
+                    .post(
+                      "http://localhost:8081/api/wallet/protected/registerWallet",
+                      JSON.stringify(payload)
+                    )
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                registerWallet
+              </button>
             </Menu>
           </Sider>
           <Sider
@@ -129,9 +147,9 @@ class Main extends React.Component {
             <div className="menu-separation" />
             {
               {
-                1: <ChatList/>,
-                2: <AddressBook/>,
-                3: <Wallet/>,
+                1: <ChatList />,
+                2: <AddressBook />,
+                3: <Wallet />,
               }[this.state.menuaction]
             }
           </Sider>

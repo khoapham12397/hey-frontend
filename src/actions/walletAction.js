@@ -6,6 +6,7 @@ export const TRANSFER = 'wallet.TRANSFER'
 export const BALANCE = 'wallet.BALANCE'
 export const REGISTER = 'wallet.REGISTER'
 export const REGISTER_WALLET_POPUP_STATE = 'wallet.REGISTER_WALLET_POPUP_STATE'
+export const TOPUP_WALLET_POPUP_STATE = 'wallet.TOPUP_WALLET_POPUP_STATE'
 
 export function registerWallet(wallet) {
     return function(dispatch) {
@@ -55,6 +56,38 @@ function callGetBalanceApi(wallet) {
     return promise;
 }
 
+function topUpAction(result) {
+    message.success(result.data.message);
+    return {
+        type: TOP_UP,
+        amount: result.data.amount,
+    };
+}
+
+export function topUpWallet(topUp) {
+    return function(dispatch) {
+        return callTopUpApi(topUp).then(result => {
+            console.log(JSON.stringify(result))
+            dispatch(topUpAction(result.data,));
+        });
+    };   
+}
+
+function callTopUpApi(topUp) {
+    console.log(topUp)
+    var promise = new Promise(function(resolve, reject) {
+        api.post(`/api/wallet/protected/topup`, topUp)
+            .then(res => {
+                resolve(res);
+        })
+    });
+    return promise;
+}
+
 export function changeStateRegisterWalletPopup(state){
     return {type: REGISTER_WALLET_POPUP_STATE, popupstate: state}
+}
+
+export function changeStateTopUpWalletPopup(state){
+    return {type: TOPUP_WALLET_POPUP_STATE, popupstate: state}
 }
