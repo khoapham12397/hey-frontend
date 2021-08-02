@@ -164,13 +164,13 @@ export function receivedNewMessage(message) {
     if (messageItems.length > 0 && messageItems[0].type == type && messageItems[0].userId == message.userId) {
       showAvatar = false;
     }
-    let x = message.message;
-    let msg = message.message;
+   // let x = message.message;
+   // let msg = message.message;
 
     if(message.msgType != 'undefined'){
-        let arr= x.split(':');
+       // let arr= x.split(':');
         if(message.msgType == 1){
-          msg = "Transaction "+ arr[1] +":["+ arr[2] +" SEND "+arr[3]+" AMOUNT "+ arr[4] +"]";
+ //         msg = "Transaction "+ arr[1] +":["+ arr[2] +" SEND "+arr[3]+" AMOUNT "+ arr[4] +"]";
           type=3;
           showAvatar =false;
         }
@@ -180,7 +180,7 @@ export function receivedNewMessage(message) {
         }
     }
     let messageItem = {
-      'message': msg,
+      'message': message.message,
       'type': type,
       'showavatar': showAvatar,
       'avatar': processUsernameForAvatar(message.name),
@@ -365,11 +365,11 @@ function getMessageItems(chatItems) {
       showAvatar = false;
     }
     var x = chatItems[i].message;
-    let msg = x;
+    //let msg = x;
     if(chatItems[i].msgType != 'undefined'){
         let arr= x.split(':');
         if(chatItems[i].msgType == 1){
-          msg = "Transaction "+ arr[1] +":["+ arr[2] +" SEND "+arr[3]+" AMOUNT "+ arr[4] +"]";
+         // msg = "Transaction "+ arr[1] +":["+ arr[2] +" SEND "+arr[3]+" AMOUNT "+ arr[4] +"]";
           type=3;
           showAvatar =false;
         }
@@ -384,7 +384,7 @@ function getMessageItems(chatItems) {
 
     //if(arr.length == 4 && arr[0]=='PRESENT')    
     var messageItem = {
-      'message': msg,
+      'message': chatItems[i].message,
       'type': type,
       'showavatar': showAvatar,
       'avatar': processUsernameForAvatar(chatItems[i].name),

@@ -2,7 +2,7 @@ import React from 'react';
 import CustomAvatar from "./custom-avatar";
 import {Popover} from "antd";
 import {SlideDown} from "react-slidedown";
-
+import {api} from '../api/api';
 class ChatItem extends React.Component {
   constructor(props) {
     super(props);
@@ -10,10 +10,12 @@ class ChatItem extends React.Component {
       showDate: false
     };
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.receivePresent = this.receivePresent.bind(this);
   };
 
   handleItemClick(e) {
     let newState = this.state.showDate;
+
     if (newState) {
       newState = false
     } else {
@@ -23,9 +25,25 @@ class ChatItem extends React.Component {
       showDate: newState
     })
   }
-  // con 1 dang nua la duoc :
-  // dung vay do :
-  // diue na 
+
+  receivePresent(present){
+    var arr = present.split(':');
+    var del = Date.now() - parseInt(arr[5]);
+    
+    if(del > 86400000) {
+      alert("This present id expired");
+      return;
+    }
+  
+    var payload = {presentId : arr[1], sessionId: arr[2]};
+    var url = 'http://localhost:8081/api/wallet/protected/receivePresent';
+    api.post(url, JSON.stringify(payload))
+    .then(res=>{
+      alert(JSON.stringify(res));
+    });
+    
+  }
+  
   render() {
     var cssClass;  var cssContentClass;
     var type= this.props.type;
@@ -35,7 +53,7 @@ class ChatItem extends React.Component {
     if(type==3) {cssClass = 'chat-item-system'; cssContentClass = 'chat-item-content-system';}
     // = this.props.type == 1 ? 'chat-item-content-owner' : 'chat-item-content-other';
     var result =(<div></div>);//
-    if(type==1 || type==2 || type==3){
+    if(type==1 || type==2){
       result = ( <div onClick={this.handleItemClick} className={'chat-item chat-item-outer ' + cssClass}>
         <div className={'chat-item ' + cssClass}>
           <CustomAvatar type="chat-avatar" avatar={this.props.avatar} show={this.props.showavatar}/>
@@ -48,9 +66,9 @@ class ChatItem extends React.Component {
           : ''}
       </div>);//
     }
-    return (
+    if(type==3){
 
-      <div onClick={this.handleItemClick} className={'chat-item chat-item-outer ' + cssClass}>
+      result = ( <div onClick={e=> this.receivePresent(this.props.value)} className={'chat-item chat-item-outer ' + cssClass}>
         <div className={'chat-item ' + cssClass}>
           <CustomAvatar type="chat-avatar" avatar={this.props.avatar} show={this.props.showavatar}/>
           <div className={'chat-item-content ' + cssContentClass}>{this.props.value}</div>
@@ -60,8 +78,9 @@ class ChatItem extends React.Component {
           <div className={'chat-item-date'}>{this.props.date}</div>
           </SlideDown>
           : ''}
-      </div>
-    )
+      </div>);      
+    }
+    return result;
   }
 };
 
