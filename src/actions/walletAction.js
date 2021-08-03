@@ -7,7 +7,7 @@ export const BALANCE = 'wallet.BALANCE'
 export const REGISTER = 'wallet.REGISTER'
 export const REGISTER_WALLET_POPUP_STATE = 'wallet.REGISTER_WALLET_POPUP_STATE'
 export const TOPUP_WALLET_POPUP_STATE = 'wallet.TOPUP_WALLET_POPUP_STATE'
-
+export const PIN_POPUP_STATE = 'wallet.PIN_POPUP_STATE'
 export function registerWallet(wallet) {
     return function(dispatch) {
         return callRegisterApi(wallet).then(result => {
@@ -90,4 +90,8 @@ export function changeStateRegisterWalletPopup(state){
 
 export function changeStateTopUpWalletPopup(state){
     return {type: TOPUP_WALLET_POPUP_STATE, popupstate: state}
+}
+
+export function changeStatePinPopup(state){
+    return {type: PIN_POPUP_STATE, popupstate: state}
 }

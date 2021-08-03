@@ -7,10 +7,10 @@ import $ from "jquery";
 import {
   topUpWallet,
   changeStateTopUpWalletPopup,
+  changeStatePinPopup,
 } from "../actions/walletAction";
 import "font-awesome/css/font-awesome.min.css";
-
-const md5 = require("md5");
+import Pin from './pin'
 
 class TopUp extends React.Component {
   constructor(props) {
@@ -19,17 +19,12 @@ class TopUp extends React.Component {
       visible: false,
       pin: 0,
     };
-    this.onChange = this.onChange.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.showModal = this.showModal.bind(this);
   }
 
   showModal = () => {
     this.props.changeStateTopUpWalletPopup(true);
-  };
-
-  onChange = (value, index) => {
-    this.setState({ pin: value });
   };
 
   handleOk = (e) => {
@@ -48,19 +43,15 @@ class TopUp extends React.Component {
       $("#amount").focus();
       return;
     }
-    if (this.state.pin.toString().length !== 6) {
-      message.error("Please input 6 digit PIN");
-      this.pin.focus();
-      return;
-    }
     var topUp = {
-      pin: md5(this.state.pin),
       amount: parseInt($("#amount").val()),
     };
+    this.setState({"request": topUp})
     $("#amount").val(0);
-    this.pin.clear();
-    this.props.topUpWallet(topUp);
     this.props.changeStateTopUpWalletPopup(false);
+    console.log(this.props.pinPopup)
+    this.props.changeStatePinPopup(true);
+    console.log(this.props.pinPopup)
   };
 
   handleCancel = (e) => {
@@ -97,15 +88,8 @@ class TopUp extends React.Component {
             onPressEnter={this.handleOk}
             focus="true"
           />
-          <p className="model-label"> Please enter PIN: </p>
-          <PinInput
-            length={6}
-            secret
-            type="numeric"
-            ref={(p) => (this.pin = p)}
-            onChange={this.onChange}
-          />
         </Modal>
+        <Pin request={this.state.request} type={"topup"}/>
       </div>
     );
   }
@@ -114,16 +98,17 @@ class TopUp extends React.Component {
 function mapStateToProps(state) {
   return {
     topUpPopup: state.walletReducer.topUpPopup,
+    pinPopup: state.walletReducer.pinPopup,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    topUpWallet(topUp) {
-      dispatch(topUpWallet(topUp));
-    },
     changeStateTopUpWalletPopup(state) {
       dispatch(changeStateTopUpWalletPopup(state));
+    },
+    changeStatePinPopup(state) {
+      dispatch(changeStatePinPopup(state));
     },
   };
 }

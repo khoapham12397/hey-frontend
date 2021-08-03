@@ -100,37 +100,18 @@ class Main extends React.Component {
                 style={{ width: "80px", height: "40px", color: "black" }}
                 onClick={(e) => {
                   api
-                    .post("http://localhost:8081/api/wallet/protected/topup", {
+                    .post("http://localhost:8081/api/wallet/protected/sendP2P", {
                       pin: "e10adc3949ba59abbe56e057f20f883e",
                       amount: 10000,
+                      username: "kha",
+                      message: "hello",
                     })
                     .then((res) => {
                       alert(JSON.stringify(res));
                     });
                 }}
               >
-                TopUp
-              </button>
-              <button
-                style={{ width: "80px", height: "40px", color: "black" }}
-                onClick={(e) => {
-                  let payload = {
-                    hashedPin: "e10adc3949ba59abbe56e057f20f883e",
-                    identity: "211122223",
-                    email: "xyz@gmail.com",
-                    phone: "2000111100",
-                  };
-                  api
-                    .post(
-                      "http://localhost:8081/api/wallet/protected/registerWallet",
-                      JSON.stringify(payload)
-                    )
-                    .then((res) => {
-                      alert(JSON.stringify(res));
-                    });
-                }}
-              >
-                registerWallet
+                sendP2P
               </button>
             </Menu>
           </Sider>

@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from "react-redux";
 import CustomAvatar from "./custom-avatar";
 
-
 class ChatHeader extends React.Component {
   render() {
     return (
@@ -11,7 +10,10 @@ class ChatHeader extends React.Component {
           {this.props.header.groupchat ?
             <CustomAvatar type="panel-group-avatar"/>
             :
-            <CustomAvatar type="panel-avatar" avatar={this.props.header.avatar}/>
+            <div>
+              <CustomAvatar type="panel-avatar" avatar={this.props.header.avatar}/>
+            </div>
+            
           }
         </div>
         <div style={{overflow: 'hidden', paddingTop: 5}}>

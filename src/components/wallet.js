@@ -20,7 +20,6 @@ class Wallet extends React.Component {
     }
 
     render() {
-        console.log(this.state.balance)
         return (
             <div className="d-flex flex-column full-height justify-content-center">
             {
@@ -30,14 +29,14 @@ class Wallet extends React.Component {
                 }[this.state.balance] ||
                 (
                 <div>
-                  <div className="site-card-border-less-wrapper" style={{padding: 5, background: "#FFFFFF"}}>
-                    <Card title="Balance amount:" style={{ maxwidth: 300 }}>
+                  <div className="site-card-border-less-wrapper" style={{background: "#FFFFFF", padding: 5}}>
+                    <Card title="Balance amount:" style={{ maxwidth: 300}}>
                         <span style={{fontsize: 30}}>
                             <i className="fa fa-money" aria-hidden="true"> {this.state.balance}đ</i>
                         </span>
                     </Card>
-                    <TopUp/>
                   </div>
+                  <TopUp/>
                 </div>
                 )
             }

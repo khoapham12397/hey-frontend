@@ -22,9 +22,7 @@ class MessagePanel extends React.Component {
         </div>
         {this.props.messageItems.map((item, index) =>
           <ChatItem key={index} type={item.type} value={item.message} showavatar={item.showavatar}
-                    avatar={item.avatar} date={item.createdDate}
-                        
-                    />
+                    avatar={item.avatar} date={item.createdDate}/>
         )}
 
       </div>

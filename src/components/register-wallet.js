@@ -75,7 +75,7 @@ class RegisterWallet extends React.Component {
 			cancelText="Cancel"
 			>
 			<p className="model-label"> Please enter phone:</p>
-			<Input id="amount" className="amount" onPressEnter={this.handleOk} focus/>
+			<Input id="phone" className="amount" onPressEnter={this.handleOk} focus/>
 			<p className="model-label"> Please enter PIN: </p>
 			<PinInput
 				length={6}
@@ -92,7 +92,7 @@ class RegisterWallet extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    topUpPopup: state.walletReducer.topUpPopup,
+    registerWalletPopup: state.walletReducer.registerWalletPopup,
   };
 }
 
