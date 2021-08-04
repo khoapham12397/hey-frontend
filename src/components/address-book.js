@@ -111,6 +111,10 @@ class AddressBook extends React.Component {
             className="address-book"
             onSelect={this.handleCurrentChange}
           >
+            {console.log("addressBookList")}
+            {console.log(this.props.addressBookList)}
+            {console.log("newAddressBookList")}
+            {console.log(this.props.newAddressBookList)}
             {this.props.addressBookList.map((item, index) => (
               <Menu.Item key={index}>
                 <div style={{ width: 60 }}>

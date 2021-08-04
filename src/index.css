@@ -177,14 +177,19 @@
 }
 
 .status-point {
-    height: 20px;
-    width: 20px;
+    height: 25px;
+    width: 25px;
     border-radius: 50%;
     border: 1px solid #fff;
     background-color: #ccc;
     position: absolute;
     top: 50px;
     left: 65px;
+}
+
+.status-point.zalopay {
+    background: url(https://cdn.iconscout.com/icon/premium/png-256-thumb/wallet-1511407-1280347.png);
+    background-size: 22px 22px;
 }
 
 .status-point.online {

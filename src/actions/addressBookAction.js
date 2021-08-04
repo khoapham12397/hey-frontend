@@ -3,8 +3,6 @@ import {loadChatContainer, startNewChatSingle} from "./chatAction";
 import {api} from "../api/api";
 import {isEmptyString} from "../utils/utils";
 import deepcopy from "deepcopy";
-import {Icon, notification} from 'antd';
-import {statusNotification} from '../components/status-notification'
 
 export const ADDRESSBOOK_FETCHED = 'addressBook.ADDRESSBOOK_FETCHED'
 export const ADD_FRIEND_FAIL = 'addressBook.ADD_FRIEND_FAIL'
@@ -69,7 +67,7 @@ export function receiveAddFriendResult(result) {
       'userId': result.data.data.item.userId,
       'avatar': processUsernameForAvatar(result.data.data.item.name),
       'status': result.data.data.item.status,
-      'isOnline': result.data.data.item.online
+      'isOnline': result.data.data.item.online,
     };
 
     newAddressBookList.push(newFriend);
@@ -140,7 +138,8 @@ function getAddressBookList() {
             'userId': items[index].userId,
             'avatar': processUsernameForAvatar(items[index].name),
             'status': items[index].status,
-            'isOnline': items[index].online
+            'isOnline': items[index].online,
+            'wallet': items[index].wallet,
           }
           if (items[index].online) {
             onlineResults.push(addressbookItem);

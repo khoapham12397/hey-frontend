@@ -1,11 +1,8 @@
 import React from "react";
 import { Modal, Input, message } from "antd";
-import CustomAvatar from "./custom-avatar";
-import PinInput from "react-pin-input";
 import { connect } from "react-redux";
 import $ from "jquery";
 import {
-  topUpWallet,
   changeStateTopUpWalletPopup,
   changeStatePinPopup,
 } from "../actions/walletAction";
@@ -62,10 +59,9 @@ class TopUp extends React.Component {
     return (
       <div>
         <div className="new-action-menu" onClick={this.showModal}>
-          <a href="#">
+          <a href="#" style={{padding:10}}>
             <i className="fa fa-credit-card" aria-hidden="true">
-              {" "}
-              <strong>Top Up</strong>
+              <strong> Top Up</strong>
             </i>
             {/* <div className="new-text">Top Up</div> */}
           </a>

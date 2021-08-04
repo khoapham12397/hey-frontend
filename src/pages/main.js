@@ -113,6 +113,32 @@ class Main extends React.Component {
               >
                 sendP2P
               </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/protected/addressbook", {
+                    })
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                Adressbook
+              </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/protected/friendlist", {
+                    })
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                Friend List
+              </button>
             </Menu>
           </Sider>
           <Sider
