@@ -30,19 +30,21 @@ class TopUp extends React.Component {
       $("#amount_topUp").focus();
       return;
     }
-    if ($("#amount").val() < 10000) {
+    const amount = parseInt($("#amount_topUp").val());
+    console.log(amount)
+    if (amount < 10000) {
       message.error("Minimum amount money is 10.000đ");
       $("#amount_topUp").focus();
       return;
     }
-    if ($("#amount_topUp").val() > 2000000) {
+    if (amount > 2000000) {
       message.error("Maximum amount money is 20.000.000đ");
       $("#amount_topUp").focus();
       return;
     }
     var topUp = {
       type: "topUp",
-      amount: parseInt($("#amount_topUp").val()),
+      amount,
     };
     this.props.changeRequest(topUp)
     $("#amount_topUp").val(0);
@@ -67,7 +69,7 @@ class TopUp extends React.Component {
         </div>
         <Modal
           width="420px"
-          title="Register wallet"
+          title="Topup"
           visible={this.props.topUpPopup}
           onOk={this.handleOk}
           onCancel={this.handleCancel}

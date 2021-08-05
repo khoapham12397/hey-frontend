@@ -132,13 +132,15 @@ class Main extends React.Component {
                 style={{ width: "80px", height: "40px", color: "black" }}
                 onClick={(e) => {
                   api
-                    .post("http://localhost:8081/api/protected/chatlist", {})
+                    .post("http://localhost:8081/api/protected/sessionidbyuserid", {
+                      userId: "c31ac0fd-79cf-4d7f-8d0c-9ec2c9002fda",
+                    })
                     .then((res) => {
                       alert(JSON.stringify(res));
                     });
                 }}
               >
-                Chat List
+                sessionid
               </button>
               <button
                 style={{ width: "80px", height: "40px", color: "black" }}
