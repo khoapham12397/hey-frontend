@@ -5,10 +5,10 @@ import CustomAvatar from "../components/custom-avatar";
 import RegisterWallet from "./register-wallet";
 import TopUp from "./top-up";
 import TransferP2P from "./transferP2P";
+import Pin from './pin'
 import { connect } from "react-redux";
 import { getBalance } from "../actions/walletAction";
 import {
-  handleChangeAddressBook,
   loadAddressBookList,
 } from "../actions/addressBookAction";
 import "font-awesome/css/font-awesome.min.css";
@@ -52,6 +52,7 @@ class Wallet extends React.Component {
             <TransferP2P />
           </div>
         )}
+        <Pin request={this.state.request}/>
       </div>
     );
   }
@@ -60,6 +61,7 @@ class Wallet extends React.Component {
 function mapStateToProps(state) {
   return {
     balance: state.walletReducer.balance,
+    request: state.walletReducer.request,
   };
 }
 

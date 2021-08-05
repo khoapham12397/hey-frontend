@@ -3,11 +3,11 @@ import { Modal, Input, message } from "antd";
 import { connect } from "react-redux";
 import $ from "jquery";
 import {
+  changeRequest,
   changeStateTopUpWalletPopup,
   changeStatePinPopup,
 } from "../actions/walletAction";
 import "font-awesome/css/font-awesome.min.css";
-import Pin from './pin'
 
 class TopUp extends React.Component {
   constructor(props) {
@@ -25,30 +25,29 @@ class TopUp extends React.Component {
   };
 
   handleOk = (e) => {
-    if ($("#amount").val().length === 0) {
+    if ($("#amount_topUp").val().length === 0) {
       message.error("Please input amount money");
-      $("#amount").focus();
+      $("#amount_topUp").focus();
       return;
     }
     if ($("#amount").val() < 10000) {
       message.error("Minimum amount money is 10.000đ");
-      $("#amount").focus();
+      $("#amount_topUp").focus();
       return;
     }
-    if ($("#amount").val() > 2000000) {
+    if ($("#amount_topUp").val() > 2000000) {
       message.error("Maximum amount money is 20.000.000đ");
-      $("#amount").focus();
+      $("#amount_topUp").focus();
       return;
     }
     var topUp = {
-      amount: parseInt($("#amount").val()),
+      type: "topUp",
+      amount: parseInt($("#amount_topUp").val()),
     };
-    this.setState({"request": topUp})
-    $("#amount").val(0);
+    this.props.changeRequest(topUp)
+    $("#amount_topUp").val(0);
     this.props.changeStateTopUpWalletPopup(false);
-    console.log(this.props.pinPopup)
     this.props.changeStatePinPopup(true);
-    console.log(this.props.pinPopup)
   };
 
   handleCancel = (e) => {
@@ -78,14 +77,13 @@ class TopUp extends React.Component {
           <p className="model-label"> Please enter amount money (VNĐ): </p>
           <Input
             type="number"
-            id="amount"
+            id="amount_topUp"
             min="10000"
             max="20000000"
             onPressEnter={this.handleOk}
             focus="true"
           />
         </Modal>
-        <Pin request={this.state.request} type={"topup"}/>
       </div>
     );
   }
@@ -95,6 +93,7 @@ function mapStateToProps(state) {
   return {
     topUpPopup: state.walletReducer.topUpPopup,
     pinPopup: state.walletReducer.pinPopup,
+    request: state.walletReducer.request,
   };
 }
 
@@ -106,6 +105,9 @@ function mapDispatchToProps(dispatch) {
     changeStatePinPopup(state) {
       dispatch(changeStatePinPopup(state));
     },
+    changeRequest(request){
+      dispatch(changeRequest(request));
+    }
   };
 }
 

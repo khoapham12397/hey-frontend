@@ -100,12 +100,15 @@ class Main extends React.Component {
                 style={{ width: "80px", height: "40px", color: "black" }}
                 onClick={(e) => {
                   api
-                    .post("http://localhost:8081/api/wallet/protected/sendP2P", {
-                      pin: "e10adc3949ba59abbe56e057f20f883e",
-                      amount: 10000,
-                      username: "kha",
-                      message: "hello",
-                    })
+                    .post(
+                      "http://localhost:8081/api/wallet/protected/sendP2P",
+                      {
+                        pin: "e10adc3949ba59abbe56e057f20f883e",
+                        amount: 20000,
+                        userId: "627725ef-9960-4b26-9d1d-7d722fd5d65b",
+                        message: "hello",
+                      }
+                    )
                     .then((res) => {
                       alert(JSON.stringify(res));
                     });
@@ -117,8 +120,7 @@ class Main extends React.Component {
                 style={{ width: "80px", height: "40px", color: "black" }}
                 onClick={(e) => {
                   api
-                    .post("http://localhost:8081/api/protected/addressbook", {
-                    })
+                    .post("http://localhost:8081/api/protected/addressbook", {})
                     .then((res) => {
                       alert(JSON.stringify(res));
                     });
@@ -130,14 +132,28 @@ class Main extends React.Component {
                 style={{ width: "80px", height: "40px", color: "black" }}
                 onClick={(e) => {
                   api
-                    .post("http://localhost:8081/api/protected/friendlist", {
+                    .post("http://localhost:8081/api/protected/chatlist", {})
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                Chat List
+              </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/wallet/protected/topup", {
+                      amount: 20000,
+                      pin: "e10adc3949ba59abbe56e057f20f883e",
                     })
                     .then((res) => {
                       alert(JSON.stringify(res));
                     });
                 }}
               >
-                Friend List
+                Top Up
               </button>
             </Menu>
           </Sider>

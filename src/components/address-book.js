@@ -113,8 +113,6 @@ class AddressBook extends React.Component {
           >
             {console.log("addressBookList")}
             {console.log(this.props.addressBookList)}
-            {console.log("newAddressBookList")}
-            {console.log(this.props.newAddressBookList)}
             {this.props.addressBookList.map((item, index) => (
               <Menu.Item key={index}>
                 <div style={{ width: 60 }}>

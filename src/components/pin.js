@@ -1,10 +1,9 @@
 import React from "react";
-import { Modal, Input, message } from "antd";
-import CustomAvatar from "./custom-avatar";
+import { Modal, message } from "antd";
 import PinInput from "react-pin-input";
 import { connect } from "react-redux";
-import $ from "jquery";
 import {
+  transferWallet,
   changeStatePinPopup,
   topUpWallet
 } from "../actions/walletAction";
@@ -42,10 +41,16 @@ class Pin extends React.Component {
         ...this.props.request,
         "pin": md5(this.state.pin)
     }
-    switch (this.props.type){
-        case "topup":
+    const type = request.type
+    delete request.type;
+    console.log(request)
+    switch (type){
+        case "topUp":
             this.props.topUpWallet(request);
             break;
+        case "transfer":
+          this.props.transferWallet(request);
+          break;
         default:
             break;
     }
@@ -87,6 +92,7 @@ class Pin extends React.Component {
 function mapStateToProps(state) {
   return {
     pinPopup: state.walletReducer.pinPopup,
+    request: state.walletReducer.request,
   };
 }
 
@@ -97,6 +103,9 @@ function mapDispatchToProps(dispatch) {
     },
     topUpWallet(topUp) {
         dispatch(topUpWallet(topUp));
+    },
+    transferWallet(transfer){
+      dispatch(transferWallet(transfer));
     },
   };
 }

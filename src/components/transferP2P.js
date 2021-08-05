@@ -2,13 +2,19 @@ import React from "react";
 import { Modal, Input, message, Menu } from "antd";
 import { connect } from "react-redux";
 import $ from "jquery";
-import { changeStatePinPopup } from "../actions/walletAction";
+import { 
+  changeRequest,
+  changeStatePinPopup,
+  changeStateTransferPopup,
+} from "../actions/walletAction";
 import "font-awesome/css/font-awesome.min.css";
-import Pin from "./pin";
 import CustomAvatar from "../components/custom-avatar";
 import {
-    loadAddressBookList
+  handleChangeAddressBook,
+  loadAddressBookList
 } from "../actions/addressBookAction"
+import { Scrollbars } from "react-custom-scrollbars";
+import { changeMessageHeader } from "../actions/chatAction";
 
 const { SubMenu } = Menu;
 
@@ -16,8 +22,7 @@ class TransferP2P extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      pin: 0,
+      current: [],
     };
     this.showModal = this.showModal.bind(this);
   }
@@ -26,45 +31,69 @@ class TransferP2P extends React.Component {
     this.props.loadAddressBookList();
   }
   showModal = () => {
-    this.props.changeStateTopUpWalletPopup(true);
+    this.props.changeStateTransferPopup(true);
   };
 
   handleOk = (e) => {
-    if ($("#amount").val().length === 0) {
+    if ($("#amount_transfer").val().length === 0) {
       message.error("Please input amount money");
-      $("#amount").focus();
+      $("#amount_transfer").focus();
       return;
     }
-    if ($("#amount").val() < 10000) {
-      message.error("Minimum amount money is 10.000đ");
-      $("#amount").focus();
+    if ($("#amount_transfer").val() < 1000) {
+      message.error("Minimum amount money is 1.000đ");
+      $("#amount_transfer").focus();
       return;
     }
-    if ($("#amount").val() > 2000000) {
+    if ($("#amount_transfer").val() > 2000000) {
       message.error("Maximum amount money is 20.000.000đ");
-      $("#amount").focus();
+      $("#amount_transfer").focus();
       return;
     }
-    var topUp = {
-      amount: parseInt($("#amount").val()),
+    var transfer = {
+      type: "transfer",
+      amount: parseInt($("#amount_transfer").val()),
+      message: $("#message").val(),
+      userId: this.props.addressBookList[this.state.current[0]].userId,
     };
-    this.setState({ request: topUp });
-    $("#amount").val(0);
-    this.props.changeStateTopUpWalletPopup(false);
+    this.props.changeRequest(transfer);
+    $("#amount_transfer").val(0);
+    this.props.changeStateTransferPopup(false);
     console.log(this.props.pinPopup);
     this.props.changeStatePinPopup(true);
     console.log(this.props.pinPopup);
   };
 
+  handleCurrentChange = (event) => {
+    this.setState({
+      ...this.state,
+      current: [event.key],
+    });
+    console.log(this.props.addressBookList[event.key]);
+    if (!this.props.addressBookList[event.key].wallet){
+      this.props.handleChangeAddressBook(
+        this.props.addressBookList[event.key].userId
+      );
+      this.props.changeMessageHeader(
+        this.props.addressBookList[event.key].name,
+        this.props.addressBookList[event.key].avatar,
+        false
+      );
+      return
+    }
+    this.props.changeStateTransferPopup(true);
+  }
+
   render() {
     return (
-      <div>
+      <div className="d-flex flex-column full-height address-book-menu">
+        <Scrollbars autoHide autoHideTimeout={1000} autoHideDuration={200} autoHeight autoHeightMin={100} autoHeightMax={500}>
         <Menu
           theme="light"
           mode="inline"
           defaultSelectedKeys={[]}
           selectedKeys={this.state.current}
-          onSelect={this.han}
+          onSelect={this.handleCurrentChange}
         >
           <SubMenu
             key="sub"
@@ -93,6 +122,34 @@ class TransferP2P extends React.Component {
             ))}
           </SubMenu>
         </Menu>
+        </Scrollbars>
+        <Modal
+          width="420px"
+          title="Register wallet"
+          visible={this.props.transferPopup}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+          okText="Top Up"
+          cancelText="Cancel"
+        >
+          <p className="model-label"> Please enter amount money (VNĐ): </p>
+          <Input
+            type="number"
+            id="amount_transfer"
+            min="10000"
+            max="20000000"
+            onPressEnter={this.handleOk}
+            focus="true"
+          />
+        <p className="model-label"> Message (maximum 280 characters): </p>
+          <Input
+            type="text"
+            id="message"
+            maxLength="280"
+            onPressEnter={this.handleOk}
+            focus="true"
+          />
+        </Modal>
       </div>
     );
   }
@@ -102,6 +159,7 @@ function mapStateToProps(state) {
   return {
     addressBookList: state.addressBookReducer.addressBookList,
     pinPopup: state.walletReducer.pinPopup,
+    transferPopup: state.walletReducer.transferPopup,
   };
 }
 
@@ -110,8 +168,20 @@ function mapDispatchToProps(dispatch) {
     changeStatePinPopup(state) {
       dispatch(changeStatePinPopup(state));
     },
+    changeRequest(request){
+      dispatch(changeRequest(request));
+    },
+    changeStateTransferPopup(state){
+      dispatch(changeStateTransferPopup(state))
+    },
     loadAddressBookList() {
       dispatch(loadAddressBookList());
+    },
+    changeMessageHeader(avatar, title, groupchat) {
+      dispatch(changeMessageHeader(avatar, title, groupchat));
+    },
+    handleChangeAddressBook(userId) {
+      dispatch(handleChangeAddressBook(userId));
     },
   };
 }
