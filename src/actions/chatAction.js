@@ -244,11 +244,12 @@ export function changeMessageItems(chatItems, sessionId) {
   return {type: MESSAGE_PANEL_FETCHED, messageItems: messageItems, currentSessionId: sessionId, chatList: chatList};
 }
 
-export function changeMessageHeader(title, avatar, groupchat) {
+export function changeMessageHeader(title, avatar, groupchat, wallet) {
   const header = {
     'title': title,
     'avatar': avatar,
-    'groupchat': groupchat
+    'groupchat': groupchat,
+    'wallet': wallet,
   };
   return {type: MESSAGE_HEADER_FETCHED, messageHeader: header};
 }
@@ -294,7 +295,7 @@ export function startNewChatGroup() {
     let waitingGroupUsernames = store.getState().chatReducer.startChatGroupList;
     let currentSessionId = '-1';
     api.post(`/api/protected/waitingchatheader`, createWaitingChatHeaderRequest(waitingGroupUsernames)).then(res => {
-      store.dispatch(changeMessageHeader(res.data.data.title, '', true));
+      store.dispatch(changeMessageHeader(res.data.data.title, '', true,false));
     });
     return {
       type: START_CHAT_GROUP,

@@ -7,6 +7,9 @@ import {
   handleChangeAddressBook,
   loadAddressBookList,
 } from "../actions/addressBookAction";
+import {
+  changeTransfer
+} from "../actions/walletAction"
 import { Scrollbars } from "react-custom-scrollbars";
 import { changeMessageHeader } from "../actions/chatAction";
 
@@ -37,8 +40,14 @@ class AddressBook extends React.Component {
     this.props.changeMessageHeader(
       this.props.addressBookList[event.key].name,
       this.props.addressBookList[event.key].avatar,
-      false
+      false,
+      this.props.addressBookList[event.key].wallet,
     );
+    this.props.changeTransfer({
+      name: this.props.addressBookList[event.key].name,
+      avatar: this.props.addressBookList[event.key].avatar,
+      userId: this.props.addressBookList[event.key].userId
+    });
   }
 
   handleNewChange(event) {
@@ -54,8 +63,14 @@ class AddressBook extends React.Component {
     this.props.changeMessageHeader(
       this.props.newAddressBookList[event.key].name,
       this.props.newAddressBookList[event.key].avatar,
-      false
+      false,
+      this.props.addressBookList[event.key].wallet,
     );
+    this.props.changeTransfer({
+      name: this.props.addressBookList[event.key].name,
+      avatar: this.props.addressBookList[event.key].avatar,
+      userId: this.props.addressBookList[event.key].userId
+    })
   }
 
   render() {
@@ -111,8 +126,6 @@ class AddressBook extends React.Component {
             className="address-book"
             onSelect={this.handleCurrentChange}
           >
-            {console.log("addressBookList")}
-            {console.log(this.props.addressBookList)}
             {this.props.addressBookList.map((item, index) => (
               <Menu.Item key={index}>
                 <div style={{ width: 60 }}>
@@ -148,12 +161,15 @@ function mapDispatchToProps(dispatch) {
     loadAddressBookList() {
       dispatch(loadAddressBookList());
     },
-    changeMessageHeader(avatar, title, groupchat) {
-      dispatch(changeMessageHeader(avatar, title, groupchat));
+    changeMessageHeader(avatar, title, groupchat, wallet) {
+      dispatch(changeMessageHeader(avatar, title, groupchat, wallet));
     },
     handleChangeAddressBook(userId) {
       dispatch(handleChangeAddressBook(userId));
     },
+    changeTransfer(transfer){
+      dispatch(changeTransfer(transfer));
+    }
   };
 }
 

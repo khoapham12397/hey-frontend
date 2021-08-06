@@ -45,7 +45,6 @@ class ChatItem extends React.Component {
   }
   
   render() {
-    console.log(this.props.avatar)
     var cssClass;  var cssContentClass;
     var type= this.props.type;
     // = this.props.type == 1 ? 'chat-item-owner' : 'chat-item-other';

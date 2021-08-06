@@ -10,6 +10,7 @@ export const TOPUP_POPUP_STATE = 'wallet.TOPUP_POPUP_STATE'
 export const PIN_POPUP_STATE = 'wallet.PIN_POPUP_STATE'
 export const TRANSFER_POPUP_STATE = 'wallet.TRANSFER_POPUP_STATE'
 export const CHANGE_REQUEST = 'wallet.CHANGE_REQUEST'
+export const CHANGE_TRANSFER = 'wallet.CHANGE_TRANSFER'
 
 export function changeRequest(request){
     return function(dispatch){
@@ -19,6 +20,16 @@ export function changeRequest(request){
 
 function requestAction(request){
     return {type:CHANGE_REQUEST, request }
+}
+
+export function changeTransfer(transfer){
+    return function(dispatch){
+        dispatch(changeTransferAction(transfer));
+    }
+}
+
+function changeTransferAction(transfer){
+    return {type: CHANGE_TRANSFER, transfer}
 }
 
 export function registerWallet(wallet) {
@@ -96,7 +107,8 @@ function callTopUpApi(topUp) {
 }
 
 function transferAction(result) {
-    message.success(result.data.message);
+    if (result.data.message)
+        message.success(result.data.message);
     return {
         type: TRANSFER,
         amount: result.data.amount,

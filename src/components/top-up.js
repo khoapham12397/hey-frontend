@@ -37,7 +37,7 @@ class TopUp extends React.Component {
       $("#amount_topUp").focus();
       return;
     }
-    if (amount > 2000000) {
+    if (amount > 20000000) {
       message.error("Maximum amount money is 20.000.000đ");
       $("#amount_topUp").focus();
       return;

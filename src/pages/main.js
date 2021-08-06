@@ -7,6 +7,7 @@ import Wallet from "../components/wallet";
 import ChatHeader from "../components/chat-header";
 import Profile from "../components/profile";
 import MessagePanel from "../components/message-panel";
+import TransferPopup from "../components/transfer-popup";
 import {
   closeWebSocket,
   initialWebSocket,
@@ -18,9 +19,8 @@ import { isAuthenticated, isEmptyString } from "../utils/utils";
 import { Redirect } from "react-router-dom";
 import $ from "jquery";
 import { api } from "../api/api";
-import { getUserIdFromStorage } from "../utils/utils";
-
-const { Header, Content, Footer, Sider } = Layout;
+import Pin from "../components/pin"
+const { Sider } = Layout;
 const { TextArea } = Input;
 class Main extends React.Component {
   constructor(props) {
@@ -194,6 +194,8 @@ class Main extends React.Component {
               </Button>
             </div>
           </div>
+          <TransferPopup/>
+          <Pin/>
         </Layout>
       </div>
     );

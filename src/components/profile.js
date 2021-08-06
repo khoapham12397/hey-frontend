@@ -3,9 +3,7 @@ import {Icon, Input} from 'antd';
 import {clearStorage, isEmptyString} from "../utils/utils";
 import {api} from "../api/api";
 import {withRouter} from "react-router-dom";
-import $ from 'jquery';
-import {changeMessageHeader, closeWebSocket} from "../actions/chatAction";
-import {handleChangeAddressBook, loadAddressBookList} from "../actions/addressBookAction";
+import {closeWebSocket} from "../actions/chatAction";
 import {connect} from "react-redux";
 import {changeUserStatus, getProfile, logout} from "../actions/userAction";
 

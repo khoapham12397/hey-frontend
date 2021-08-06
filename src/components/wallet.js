@@ -4,7 +4,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import CustomAvatar from "../components/custom-avatar";
 import RegisterWallet from "./register-wallet";
 import TopUp from "./top-up";
-import TransferP2P from "./transferP2P";
+import TransferP2P from "./transfer-wallet";
 import Pin from './pin'
 import { connect } from "react-redux";
 import { getBalance } from "../actions/walletAction";
@@ -25,7 +25,6 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const handleSelect = (eventKey) => alert(`selected ${eventKey}`);
     return (
       <div className="d-flex flex-column full-height justify-content-center">
         {{
@@ -52,7 +51,6 @@ class Wallet extends React.Component {
             <TransferP2P />
           </div>
         )}
-        <Pin request={this.state.request}/>
       </div>
     );
   }
@@ -61,7 +59,6 @@ class Wallet extends React.Component {
 function mapStateToProps(state) {
   return {
     balance: state.walletReducer.balance,
-    request: state.walletReducer.request,
   };
 }
 

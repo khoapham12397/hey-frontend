@@ -23,8 +23,13 @@ class ChatList extends React.Component {
     this.props.userSelected(event.key);
     this.props.loadChatContainer(event.key);
     for (var i = 0; i < this.props.chatList.length; i ++) {
-      if (this.props.chatList[i].sessionId == event.key) {
-        this.props.changeMessageHeader(this.props.chatList[i].name, this.props.chatList[i].avatar, this.props.chatList[i].groupchat);
+      if (this.props.chatList[i].sessionId === event.key) {
+        var wallet = false;
+        for (var j = 0; j < this.props.addressBookList.length; j++) {
+          if (this.props.chatList[i].sessionId === this.props.addressBookList[j].sessionId)
+            wallet = this.props.addressBookList[j].wallet
+        }
+        this.props.changeMessageHeader(this.props.chatList[i].name, this.props.chatList[i].avatar, this.props.chatList[i].groupchat, wallet);
       }
     }
   }
@@ -79,7 +84,8 @@ class ChatList extends React.Component {
 function mapStateToProps(state) {
   return {
     chatList: state.chatReducer.chatList,
-    userSelectedKeys: state.chatReducer.userSelectedKeys
+    userSelectedKeys: state.chatReducer.userSelectedKeys,
+    addressBookList: state.addressBookReducer.addressBookList,
   }
 }
 
@@ -91,8 +97,8 @@ function mapDispatchToProps(dispatch) {
     loadChatContainer(sessionId) {
       dispatch(loadChatContainer(sessionId))
     },
-    changeMessageHeader(avatar, title, groupchat) {
-      dispatch(changeMessageHeader(avatar, title, groupchat))
+    changeMessageHeader(avatar, title, groupchat, wallet) {
+      dispatch(changeMessageHeader(avatar, title, groupchat, wallet))
     },
     userSelected(sessionId) {
       dispatch(userSelected(sessionId))

@@ -2,6 +2,7 @@ import { TOP_UP,
     TRANSFER, 
     BALANCE,
     REGISTER,
+    CHANGE_TRANSFER,
     CHANGE_REQUEST,
     REGISTER_WALLET_POPUP_STATE,
     TOPUP_POPUP_STATE,
@@ -15,6 +16,7 @@ const initialState = {
     topUpPopup: false,
     pinPopup: false,
     transferPopup: false,
+    transfer: {name: "", avatar: "", userId: ""},
 }
 
 export default function reduce(state = initialState, action) {
@@ -23,6 +25,18 @@ export default function reduce(state = initialState, action) {
             return {
                 ...state,
                 request: action.request
+            }
+        case CHANGE_TRANSFER:
+            const transfer = state.transfer;
+            if (action.transfer.name)
+                transfer.name = action.transfer.name
+            if (action.transfer.avatar)
+                transfer.avatar = action.transfer.avatar
+            if (action.transfer.userId)
+                transfer.userId = action.transfer.userId
+            return {
+                ...state,
+                transfer,
             }
         case BALANCE:
             return {
