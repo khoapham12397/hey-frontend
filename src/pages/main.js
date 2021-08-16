@@ -157,6 +157,39 @@ class Main extends React.Component {
               >
                 Top Up
               </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/wallet/protected/sendPresent", {
+                      amount: 100000,
+                      sessionId: "7129bd1b-5793-4ef5-8b09-9c0d9a14a257",
+                      pin: "e10adc3949ba59abbe56e057f20f883e",
+                      envelope: 1,
+                      type: 0,
+                    })
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                sendPresent
+              </button>
+              <button
+                style={{ width: "80px", height: "40px", color: "black" }}
+                onClick={(e) => {
+                  api
+                    .post("http://localhost:8081/api/wallet/protected/sendPresent", {
+                      presentId: "",
+                      sessionId: "7129bd1b-5793-4ef5-8b09-9c0d9a14a257",
+                    })
+                    .then((res) => {
+                      alert(JSON.stringify(res));
+                    });
+                }}
+              >
+                Recive Present
+              </button>
             </Menu>
           </Sider>
           <Sider

@@ -5,12 +5,17 @@ export const TOP_UP = 'wallet.TOP_UP'
 export const TRANSFER = 'wallet.TRANSFER'
 export const BALANCE = 'wallet.BALANCE'
 export const REGISTER = 'wallet.REGISTER'
+export const CHANGE_REQUEST = 'wallet.CHANGE_REQUEST'
+export const CHANGE_TRANSFER = 'wallet.CHANGE_TRANSFER'
+export const SEND_LUCKY_MONEY = 'wallet.SEND_LUCKY_MONEY'
+export const RECEIVE_LUCKY_MONEY = 'wallet.RECEIVE_LUCKY_MONEY'
+
 export const REGISTER_WALLET_POPUP_STATE = 'wallet.REGISTER_WALLET_POPUP_STATE'
 export const TOPUP_POPUP_STATE = 'wallet.TOPUP_POPUP_STATE'
 export const PIN_POPUP_STATE = 'wallet.PIN_POPUP_STATE'
 export const TRANSFER_POPUP_STATE = 'wallet.TRANSFER_POPUP_STATE'
-export const CHANGE_REQUEST = 'wallet.CHANGE_REQUEST'
-export const CHANGE_TRANSFER = 'wallet.CHANGE_TRANSFER'
+export const LUCKY_MONEY_POPUP_STATE = 'wallet.LUCKY_MONEY_POPUP_STATE'
+
 
 export function changeRequest(request){
     return function(dispatch){
@@ -136,17 +141,21 @@ function callTransferApi(transfer) {
 }
 
 export function changeStateRegisterWalletPopup(state){
-    return {type: REGISTER_WALLET_POPUP_STATE, popupstate: state}
+    return {type: REGISTER_WALLET_POPUP_STATE, popupState: state}
 }
 
 export function changeStateTopUpWalletPopup(state){
-    return {type: TOPUP_POPUP_STATE, popupstate: state}
+    return {type: TOPUP_POPUP_STATE, popupState: state}
 }
 
 export function changeStatePinPopup(state){
-    return {type: PIN_POPUP_STATE, popupstate: state}
+    return {type: PIN_POPUP_STATE, popupState: state}
 }
 
 export function changeStateTransferPopup(state){
-    return {type: TRANSFER_POPUP_STATE, popupstate: state}
+    return {type: TRANSFER_POPUP_STATE, popupState: state}
+}
+
+export function changeStateLuckyMoneyPopup(state){
+    return {type: LUCKY_MONEY_POPUP_STATE, popupState: state}
 }

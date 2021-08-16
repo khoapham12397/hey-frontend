@@ -8,6 +8,7 @@ import { TOP_UP,
     TOPUP_POPUP_STATE,
     PIN_POPUP_STATE,
     TRANSFER_POPUP_STATE,
+    LUCKY_MONEY_POPUP_STATE,
 } from "../actions/walletAction";
 
 const initialState = {
@@ -61,22 +62,27 @@ export default function reduce(state = initialState, action) {
         case REGISTER_WALLET_POPUP_STATE:
             return {
                 ...state,
-                registerWalletPopup: action.popupstate,
+                registerWalletPopup: action.popupState,
             }
         case TOPUP_POPUP_STATE:
             return {
                 ...state,
-                topUpPopup: action.popupstate,
+                topUpPopup: action.popupState,
             }
         case PIN_POPUP_STATE:
             return {
                 ...state,
-                pinPopup: action.popupstate,
+                pinPopup: action.popupState,
             }
         case TRANSFER_POPUP_STATE:
             return {
                 ...state,
-                transferPopup: action.popupstate,
+                transferPopup: action.popupState,
+            }
+        case LUCKY_MONEY_POPUP_STATE:
+            return{
+                ...state,
+                luckyMoneyPopup: action.popupState,
             }
         default:
             return state;
