@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button } from "antd";
 import CustomAvatar from "./custom-avatar";
-import { changeStateTransferPopup, changeTransfer } from "../actions/walletAction";
+import { changeStateTransferPopup, changeTransfer, changeStateLuckyMoneyPopup } from "../actions/walletAction";
 class ChatHeader extends React.Component {
   handleTransferClick = () => {
     this.props.changeTransfer({
@@ -13,6 +13,10 @@ class ChatHeader extends React.Component {
     if(this.props.wallet);
       this.props.changeStateTransferPopup(true);
   };
+
+  handleLuckyMoney = () => {
+    this.props.changeStateLuckyMoneyPopup(true);
+  }
 
   render() {
     return (
@@ -34,7 +38,7 @@ class ChatHeader extends React.Component {
         </div>
         <div style={{ marginLeft: "auto" }}>
           {this.props.header.groupchat ? (
-            <Button type="danger" shape="round" icon="container" size="large">
+            <Button type="danger" shape="round" icon="container" size="large" onClick={this.handleLuckyMoney}>
               Lucky money
             </Button>
           ) : (
@@ -57,6 +61,7 @@ class ChatHeader extends React.Component {
 function mapStateToProps(state) {
   return {
     header: state.chatReducer.messageHeader,
+    request: state.walletReducer.request,
   };
 }
 
@@ -67,7 +72,10 @@ function mapDispatchToProps(dispatch) {
     },
     changeTransfer(transfer){
       dispatch(changeTransfer(transfer));
-    }
+    },
+    changeStateLuckyMoneyPopup(state) {
+      dispatch(changeStateLuckyMoneyPopup(state));
+    },
   };
 }
 

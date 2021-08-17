@@ -4,6 +4,7 @@ import CustomAvatar from '../components/custom-avatar';
 import StartChatGroup from "./start-chat-group";
 import {connect} from 'react-redux';
 import {changeMessageHeader, loadChatContainer, loadChatList, userSelected} from "../actions/chatAction";
+import { changeRequest } from '../actions/walletAction';
 import {Scrollbars} from 'react-custom-scrollbars';
 
 class ChatList extends React.Component {
@@ -102,8 +103,10 @@ function mapDispatchToProps(dispatch) {
     },
     userSelected(sessionId) {
       dispatch(userSelected(sessionId))
+    },
+    changeRequest(request){
+      dispatch(changeRequest(request))
     }
-
   }
 }
 

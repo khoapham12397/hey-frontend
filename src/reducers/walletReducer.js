@@ -9,6 +9,7 @@ import { TOP_UP,
     PIN_POPUP_STATE,
     TRANSFER_POPUP_STATE,
     LUCKY_MONEY_POPUP_STATE,
+    SEND_LUCKY_MONEY,
 } from "../actions/walletAction";
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     topUpPopup: false,
     pinPopup: false,
     transferPopup: false,
+    luckyMoneyPopup: false,
     transfer: {name: "", avatar: "", userId: ""},
 }
 
@@ -55,6 +57,11 @@ export default function reduce(state = initialState, action) {
                 balance: action.BALANCE
             }
         case TRANSFER:
+            return {
+                ...state,
+                balance: state.balance - action.amount,
+            }
+        case SEND_LUCKY_MONEY:
             return {
                 ...state,
                 balance: state.balance - action.amount,

@@ -345,7 +345,6 @@ export function receivedUserOffline(res) {
 }
 
 export function userSelected(sessionId) {
-  console.log(sessionId);
   var userSelectedKeys = [sessionId];
   return {
     type: USER_SELECTED, userSelectedKeys: userSelectedKeys

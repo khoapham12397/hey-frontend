@@ -9,8 +9,6 @@ import {
 import $ from "jquery";
 import "font-awesome/css/font-awesome.min.css";
 
-const md5 = require("md5");
-
 class TransferPopup extends React.Component {
   constructor(props) {
     super(props);
@@ -61,9 +59,7 @@ class TransferPopup extends React.Component {
     this.props.changeRequest(transfer);
     $("#amount_transfer").val(0);
     this.props.changeStateTransferPopup(false);
-    console.log(this.props.pinPopup);
     this.props.changeStatePinPopup(true);
-    console.log(this.props.pinPopup);
   };
 
   handleCancel = (e) => {

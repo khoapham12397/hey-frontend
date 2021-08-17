@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import {
   transferWallet,
   changeStatePinPopup,
-  topUpWallet
+  topUpWallet,
+  sendLuckyMoney,
 } from "../actions/walletAction";
 import "font-awesome/css/font-awesome.min.css";
 
@@ -43,7 +44,6 @@ class Pin extends React.Component {
     }
     const type = request.type
     delete request.type;
-    console.log(request)
     switch (type){
         case "topUp":
             this.props.topUpWallet(request);
@@ -51,9 +51,13 @@ class Pin extends React.Component {
         case "transfer":
           this.props.transferWallet(request);
           break;
+        case "sendLuckyMoney":
+          this.props.sendLuckyMoney(request);
+          break;
         default:
             break;
     }
+    console.log(request)
     this.pin.clear();
     this.props.changeStatePinPopup(false);
   };
@@ -107,6 +111,9 @@ function mapDispatchToProps(dispatch) {
     transferWallet(transfer){
       dispatch(transferWallet(transfer));
     },
+    sendLuckyMoney(luckyMoney){
+      dispatch(sendLuckyMoney(luckyMoney));
+    }
   };
 }
 

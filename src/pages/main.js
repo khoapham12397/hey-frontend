@@ -20,6 +20,8 @@ import { Redirect } from "react-router-dom";
 import $ from "jquery";
 import { api } from "../api/api";
 import Pin from "../components/pin"
+import LuckyMoney from "../components/lucky-money";
+
 const { Sider } = Layout;
 const { TextArea } = Input;
 class Main extends React.Component {
@@ -165,8 +167,8 @@ class Main extends React.Component {
                       amount: 100000,
                       sessionId: "7129bd1b-5793-4ef5-8b09-9c0d9a14a257",
                       pin: "e10adc3949ba59abbe56e057f20f883e",
-                      envelope: 1,
-                      type: 0,
+                      envelope: 10,
+                      equal: true,
                     })
                     .then((res) => {
                       alert(JSON.stringify(res));
@@ -174,21 +176,6 @@ class Main extends React.Component {
                 }}
               >
                 sendPresent
-              </button>
-              <button
-                style={{ width: "80px", height: "40px", color: "black" }}
-                onClick={(e) => {
-                  api
-                    .post("http://localhost:8081/api/wallet/protected/sendPresent", {
-                      presentId: "",
-                      sessionId: "7129bd1b-5793-4ef5-8b09-9c0d9a14a257",
-                    })
-                    .then((res) => {
-                      alert(JSON.stringify(res));
-                    });
-                }}
-              >
-                Recive Present
               </button>
             </Menu>
           </Sider>
@@ -229,6 +216,7 @@ class Main extends React.Component {
           </div>
           <TransferPopup/>
           <Pin/>
+          <LuckyMoney/>
         </Layout>
       </div>
     );

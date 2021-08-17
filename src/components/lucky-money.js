@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, message, Input, Avatar } from "antd";
+import {store} from "../index";
+import { Modal, message, Input, Radio } from "antd";
 import { connect } from "react-redux";
 import {
   changeStatePinPopup,
@@ -9,66 +10,105 @@ import {
 import $ from "jquery";
 import "font-awesome/css/font-awesome.min.css";
 
-const md5 = require("md5");
-
 class LuckyMoney extends React.Component {
   constructor(props) {
     super(props);
+    const messageList = ["Please input amount money:", "Please input amount money every envelope:"];
     this.state = {
-      visible: false,
-    };
+      ...this.state,
+      message: "Please input amount money:",
+      value: false,
+      total: 0,
+    }
   }
 
   showModal = () => {
-    this.props.changeStateTransferPopup(true);
-  };
-
-  handleCancel = () => {
-    this.props.changeStateTransferPopup(false);
+    this.props.changeStateLuckyMoneyPopup(true);
   };
 
   handleOk = (e) => {
-    console.log(this.props.transfer )
-    if ($("#amount_transfer").val().length === 0) {
+    if ($("#amountLuckyMoney").val().length === 0) {
       message.error("Please input amount money");
-      $("#amount_transfer").focus();
+      $("#amountLuckyMoney").focus();
       return;
     }
-    const amount = parseInt($("#amount_transfer").val());
-    console.log(amount);
+    let amount = parseInt($("#amountLuckyMoney").val()) || 0;
+    const envelope = parseInt($("#amountEnvelope").val()) || 0;
+    if (envelope<1){
+      message.error("Minimum amount envelopes is 1");
+      $("#amountEnvelope").focus();
+      return;
+    }
+    if (envelope>1000){
+      message.error("Maximum amount envelopes is 1000");
+      $("#amountEnvelope").focus();
+      return;
+    }
+    if (this.state.value)
+      amount = amount * envelope
+    else {
+      if (amount < 100*envelope){
+        message.error(`Maximum amount envelopes is ${100*envelope}`);
+        $("#amountLuckyMoney").focus();
+        return;
+      }
+    }
     if (amount < 1000) {
       message.error("Minimum amount money is 1.000đ");
-      $("#amount_transfer").focus();
+      $("#amountLuckyMoney").focus();
       return;
     }
     if (amount > 20000000) {
       message.error("Maximum amount money is 20.000.000đ");
-      $("#amount_transfer").focus();
+      $("#amountLuckyMoney").focus();
       return;
     }
     if (amount > this.props.balance) {
-      message.error("The amount transferred is greater than the balance");
-      $("#amount_transfer").focus();
+      message.error("The amount money sender is greater than the balance");
       return;
     }
-    var transfer = {
-      type: "transfer",
+    var sendLuckyMoney = {
+      type: "sendLuckyMoney",
+      sessionId: store.getState().chatReducer.currentSessionId,
       amount,
-      message: $("#message").val(),
-      userId: this.props.transfer.userId,
+      envelope,
+      equal: this.state.value,
     };
-    console.log(transfer);
-    this.props.changeRequest(transfer);
-    $("#amount_transfer").val(0);
-    this.props.changeStateTransferPopup(false);
-    console.log(this.props.pinPopup);
+    this.props.changeRequest(sendLuckyMoney);
+    $("#amountLuckyMoney").val(0);
+    $("#amountEnvelope").val(0);
+    this.props.changeStateLuckyMoneyPopup(false);
     this.props.changeStatePinPopup(true);
-    console.log(this.props.pinPopup);
   };
 
   handleCancel = (e) => {
-    this.props.changeStateTransferPopup(false);
+    this.props.changeStateLuckyMoneyPopup(false);
   };
+
+  onChange = (e) => {
+    if (e.target.value){
+      this.setState({
+        ...this.state,
+        message: "Please input amount money every envelope:",
+        value: true,
+      })
+    }else{
+      this.setState({
+        ...this.state,
+        message: "Please input amount money:",
+        value: false,
+      })
+    }
+  };
+
+  changeTotal = () =>{
+    const amount = parseInt($("#amountLuckyMoney").val()) || 0;
+    const envelope = parseInt($("#amountEnvelope").val()) || 0;
+    this.setState({
+      ...this.state,
+      total: amount * envelope,
+    })
+  }
 
   render() {
     return (
@@ -79,7 +119,7 @@ class LuckyMoney extends React.Component {
           visible={this.props.luckyMoneyPopup}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          okText="Transfer"
+          okText="Send lucky money"
           cancelText="Cancel"
         >
           <div
@@ -89,37 +129,29 @@ class LuckyMoney extends React.Component {
               alignItems: "center",
             }}
           >
-            <Avatar
-              style={{
-                color: "#ffffff",
-                verticalAlign: "middle",
-                backgroundColor: "#87d068",
-              }}
-              size="large"
-            >
-              {this.props.transfer.avatar}
-            </Avatar>
-            <div style={{ overflow: "hidden", paddingTop: 5 }}>
-              <div className="user-name">{this.props.transfer.name}</div>
-            </div>
+            <Radio.Group onChange={this.onChange} defaultValue={false}>
+              <Radio value={false}>Randomly split</Radio>
+              <Radio value={true}>Equally split</Radio>
+            </Radio.Group>
           </div>
-          <p className="model-label"> Please enter amount money (VNĐ): </p>
+          <p className="model-label">{this.state.message}</p>
           <Input
             type="number"
-            id="amount_transfer"
+            id="amountLuckyMoney"
             min="10000"
             max="20000000"
-            onPressEnter={this.handleOk}
             focus="true"
+            onChange = {this.changeTotal}
           />
-          <p className="model-label"> Message (maximum 280 characters): </p>
+          <p className="model-label">Amount envelope: </p>
           <Input
-            type="text"
-            id="message"
-            maxLength="280"
-            onPressEnter={this.handleOk}
-            focus="true"
+            type="number"
+            id="amountEnvelope"
+            min="1"
+            max="1000"
+            onChange = {this.changeTotal}
           />
+          {(this.state.value) ? <p className="model-label">Total money: <strong>{this.state.total}đ</strong></p> : <div></div>}
         </Modal>
       </div>
     );
@@ -131,7 +163,6 @@ function mapStateToProps(state) {
     pinPopup: state.walletReducer.pinPopup,
     request: state.walletReducer.request,
     luckyMoneyPopup: state.walletReducer.luckyMoneyPopup,
-    transfer: state.walletReducer.transfer,
     balance: state.walletReducer.balance,
   };
 }
@@ -150,4 +181,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TransferPopup);
+export default connect(mapStateToProps, mapDispatchToProps)(LuckyMoney);

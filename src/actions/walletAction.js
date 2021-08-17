@@ -140,6 +140,38 @@ function callTransferApi(transfer) {
     return promise;
 }
 
+function sendLuckyMoneyAction(result) {
+    try {
+        console.log(result.data)
+        message.success(`Sent ${result.data.totalAmount}đ lucky money to the group`);
+        return {
+            type: SEND_LUCKY_MONEY,
+            amount: result.data.totalAmount,
+        };
+    } catch (error) {
+        message.error(error)
+    }
+}
+
+export function sendLuckyMoney(luckyMoney) {
+    return function(dispatch) {
+        return callSendLuckyMoneyApi(luckyMoney).then(result => {
+            console.log(JSON.stringify(result))
+            dispatch(sendLuckyMoneyAction(result.data));
+        });
+    };   
+}
+
+function callSendLuckyMoneyApi(luckyMoney) {
+    var promise = new Promise(function(resolve, reject) {
+        api.post(`/api/wallet/protected/sendPresent`, luckyMoney)
+            .then(res => {
+                resolve(res);
+        })
+    });
+    return promise;
+}
+
 export function changeStateRegisterWalletPopup(state){
     return {type: REGISTER_WALLET_POPUP_STATE, popupState: state}
 }
