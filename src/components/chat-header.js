@@ -5,11 +5,12 @@ import CustomAvatar from "./custom-avatar";
 import { changeStateTransferPopup, changeTransfer, changeStateLuckyMoneyPopup } from "../actions/walletAction";
 class ChatHeader extends React.Component {
   handleTransferClick = () => {
-    this.props.changeTransfer({
-      name: this.props.header.title,
-      avatar: this.props.header.avatar,
-      userId: this.props.header.userId,
-    })
+    // console.log(this.props.header.userId)
+    // this.props.changeTransfer({
+    //   name: this.props.header.title,
+    //   avatar: this.props.header.avatar,
+    //   userId: this.props.header.userId,
+    // })
     if(this.props.wallet);
       this.props.changeStateTransferPopup(true);
   };

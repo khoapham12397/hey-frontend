@@ -71,7 +71,6 @@ export function closeWebSocket() {
 export function loadChatList() {
   return function (dispatch) {
     return getChatList().then(result => {
-
       dispatch(receivedChatlist(result));
     });
   }
@@ -412,7 +411,8 @@ function getChatList() {
             'lastMessage': items[index].lastMessage,
             'unread': items[index].unread,
             'groupchat': items[index].groupChat,
-            'updatedDate': items[index].updatedDate
+            'updatedDate': items[index].updatedDate,
+            'userId': items[index].userId,
           }
           results.push(chatItem);
         }

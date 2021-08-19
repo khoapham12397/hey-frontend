@@ -4,7 +4,10 @@ import CustomAvatar from '../components/custom-avatar';
 import StartChatGroup from "./start-chat-group";
 import {connect} from 'react-redux';
 import {changeMessageHeader, loadChatContainer, loadChatList, userSelected} from "../actions/chatAction";
-import { changeRequest } from '../actions/walletAction';
+import { changeRequest, changeTransfer } from '../actions/walletAction';
+import {
+  loadAddressBookList,
+} from "../actions/addressBookAction";
 import {Scrollbars} from 'react-custom-scrollbars';
 
 class ChatList extends React.Component {
@@ -18,19 +21,30 @@ class ChatList extends React.Component {
 
   componentDidMount() {
     this.props.loadChatList();
+    this.props.loadAddressBookList();
   }
 
   handleChangeChatItem(event) {
     this.props.userSelected(event.key);
     this.props.loadChatContainer(event.key);
+    console.log(this.props.chatList);
+    console.log(this.props.addressBookList);
     for (var i = 0; i < this.props.chatList.length; i ++) {
       if (this.props.chatList[i].sessionId === event.key) {
-        var wallet = false;
+        let wallet = false;
+        let userId = "";
         for (var j = 0; j < this.props.addressBookList.length; j++) {
-          if (this.props.chatList[i].sessionId === this.props.addressBookList[j].sessionId)
-            wallet = this.props.addressBookList[j].wallet
+          if (this.props.chatList[i].userId === this.props.addressBookList[j].userId){
+            wallet = this.props.addressBookList[j].wallet;
+            userId = this.props.addressBookList[j].userId;
+          }
         }
         this.props.changeMessageHeader(this.props.chatList[i].name, this.props.chatList[i].avatar, this.props.chatList[i].groupchat, wallet);
+        this.props.changeTransfer({
+          name: this.props.chatList[i].name,
+          avatar: this.props.chatList[i].avatar,
+          userId,
+        })
       }
     }
   }
@@ -106,7 +120,13 @@ function mapDispatchToProps(dispatch) {
     },
     changeRequest(request){
       dispatch(changeRequest(request))
-    }
+    },
+    changeTransfer(transfer){
+      dispatch(changeTransfer(transfer));
+    },
+    loadAddressBookList() {
+      dispatch(loadAddressBookList());
+    },
   }
 }
 

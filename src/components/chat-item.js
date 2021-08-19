@@ -1,6 +1,5 @@
 import React from 'react';
 import CustomAvatar from "./custom-avatar";
-import {Popover} from "antd";
 import {SlideDown} from "react-slidedown";
 import {api} from '../api/api';
 class ChatItem extends React.Component {

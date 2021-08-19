@@ -10,6 +10,7 @@ import { TOP_UP,
     TRANSFER_POPUP_STATE,
     LUCKY_MONEY_POPUP_STATE,
     SEND_LUCKY_MONEY,
+    NONE,
 } from "../actions/walletAction";
 
 const initialState = {

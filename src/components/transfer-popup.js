@@ -33,7 +33,6 @@ class TransferPopup extends React.Component {
       return;
     }
     const amount = parseInt($("#amount_transfer").val());
-    console.log(amount);
     if (amount < 1000) {
       message.error("Minimum amount money is 1.000đ");
       $("#amount_transfer").focus();

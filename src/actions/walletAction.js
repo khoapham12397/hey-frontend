@@ -1,5 +1,6 @@
 import { api } from '../api/api';
 import { message } from 'antd';
+import { nodeName } from 'jquery';
 
 export const TOP_UP = 'wallet.TOP_UP'
 export const TRANSFER = 'wallet.TRANSFER'
@@ -15,7 +16,7 @@ export const TOPUP_POPUP_STATE = 'wallet.TOPUP_POPUP_STATE'
 export const PIN_POPUP_STATE = 'wallet.PIN_POPUP_STATE'
 export const TRANSFER_POPUP_STATE = 'wallet.TRANSFER_POPUP_STATE'
 export const LUCKY_MONEY_POPUP_STATE = 'wallet.LUCKY_MONEY_POPUP_STATE'
-
+export const NONE = "wallet.NONE"
 
 export function changeRequest(request){
     return function(dispatch){
@@ -112,12 +113,19 @@ function callTopUpApi(topUp) {
 }
 
 function transferAction(result) {
-    if (result.data.message)
-        message.success(result.data.message);
-    return {
-        type: TRANSFER,
-        amount: result.data.amount,
-    };
+    if ('data' in result){
+        message.success("Transfer successful");
+        return {
+            type: TRANSFER,
+            amount: result.data.amount,
+        };
+    }else{
+        message.error(result.error)
+        return {
+            type: "NONE",
+            amount: 0,
+        }
+    }
 }
 
 export function transferWallet(transfer) {
@@ -150,6 +158,10 @@ function sendLuckyMoneyAction(result) {
         };
     } catch (error) {
         message.error(error)
+        return {
+            type: "NONE",
+            amount: 0,
+        }
     }
 }
 
