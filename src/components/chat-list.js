@@ -9,6 +9,7 @@ import {
   loadAddressBookList,
 } from "../actions/addressBookAction";
 import {Scrollbars} from 'react-custom-scrollbars';
+import {store} from "../index";
 
 class ChatList extends React.Component {
   constructor(props) {
@@ -16,21 +17,12 @@ class ChatList extends React.Component {
     this.state = {
       menuaction: 1
     }
-    this.handleChangeChatItem = this.handleChangeChatItem.bind(this);
   }
 
-  componentDidMount() {
-    this.props.loadChatList();
-    this.props.loadAddressBookList();
-  }
-
-  handleChangeChatItem(event) {
-    this.props.userSelected(event.key);
-    this.props.loadChatContainer(event.key);
-    console.log(this.props.chatList);
-    console.log(this.props.addressBookList);
+  updateInfo = (sessionId) =>{
+    console.info(sessionId)
     for (var i = 0; i < this.props.chatList.length; i ++) {
-      if (this.props.chatList[i].sessionId === event.key) {
+      if (this.props.chatList[i].sessionId === sessionId) {
         let wallet = false;
         let userId = "";
         for (var j = 0; j < this.props.addressBookList.length; j++) {
@@ -47,6 +39,21 @@ class ChatList extends React.Component {
         })
       }
     }
+  }
+
+  componentDidMount() {
+    this.props.loadChatList();
+    this.props.loadAddressBookList();
+  }
+
+  componentDidUpdate(){
+    this.updateInfo(store.getState().chatReducer.currentSessionId);
+  }
+
+  handleChangeChatItem = (event) => {
+    this.props.userSelected(event.key);
+    this.props.loadChatContainer(event.key);
+    this.updateInfo(event.key);
   }
 
   render() {

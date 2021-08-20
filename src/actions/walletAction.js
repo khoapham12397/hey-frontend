@@ -138,7 +138,6 @@ export function transferWallet(transfer) {
 }
 
 function callTransferApi(transfer) {
-    console.log(transfer)
     var promise = new Promise(function(resolve, reject) {
         api.post(`/api/wallet/protected/sendP2P`, transfer)
             .then(res => {

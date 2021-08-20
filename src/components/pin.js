@@ -71,7 +71,7 @@ class Pin extends React.Component {
       <div>
         <Modal
           width="420px"
-          title="Register wallet"
+          title="PIN"
           visible={this.props.pinPopup}
           onOk={this.handleOk}
           okText="Ok"

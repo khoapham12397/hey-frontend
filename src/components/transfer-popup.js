@@ -12,27 +12,24 @@ import "font-awesome/css/font-awesome.min.css";
 class TransferPopup extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      visible: false,
-    };
   }
-
-  showModal = () => {
-    this.props.changeStateTransferPopup(true);
-  };
 
   handleCancel = () => {
     this.props.changeStateTransferPopup(false);
   };
 
   handleOk = (e) => {
-    console.log(this.props.transfer )
     if ($("#amount_transfer").val().length === 0) {
       message.error("Please input amount money");
       $("#amount_transfer").focus();
       return;
     }
     const amount = parseInt($("#amount_transfer").val());
+    const message = $("#message_transfer").val();
+    $("#amount_transfer").val(0);
+    $("#message_transfer").val("");
+    console.log($("#amount_transfer").val())
+    console.log($("#message_transfer").val());
     if (amount < 1000) {
       message.error("Minimum amount money is 1.000đ");
       $("#amount_transfer").focus();
@@ -51,12 +48,10 @@ class TransferPopup extends React.Component {
     var transfer = {
       type: "transfer",
       amount,
-      message: $("#message").val(),
+      message: $("#message_transfer").val(),
       userId: this.props.transfer.userId,
     };
-    console.log(transfer);
     this.props.changeRequest(transfer);
-    $("#amount_transfer").val(0);
     this.props.changeStateTransferPopup(false);
     this.props.changeStatePinPopup(true);
   };
@@ -110,10 +105,9 @@ class TransferPopup extends React.Component {
           <p className="model-label"> Message (maximum 280 characters): </p>
           <Input
             type="text"
-            id="message"
+            id="message_transfer"
             maxLength="280"
             onPressEnter={this.handleOk}
-            focus="true"
           />
         </Modal>
       </div>

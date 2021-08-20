@@ -2,6 +2,7 @@ import React from 'react';
 import CustomAvatar from "./custom-avatar";
 import {SlideDown} from "react-slidedown";
 import {api} from '../api/api';
+import { message } from 'antd';
 class ChatItem extends React.Component {
   constructor(props) {
     super(props);
@@ -30,7 +31,7 @@ class ChatItem extends React.Component {
     var del = Date.now() - parseInt(arr[5]);
     
     if(del > 86400000) {
-      alert("This present id expired");
+      message.info("This present id expired");
       return;
     }
   
@@ -38,7 +39,11 @@ class ChatItem extends React.Component {
     var url = 'http://localhost:8081/api/wallet/protected/receivePresent';
     api.post(url, JSON.stringify(payload))
     .then(res=>{
-      alert(JSON.stringify(res));
+      try {
+        message.success(`You recived ${res.data.data.amount}đ lucky money from group`);
+      } catch (error) {
+        message.info(res.data.error)
+      }
     });
     
   }

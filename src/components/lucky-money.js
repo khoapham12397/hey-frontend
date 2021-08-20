@@ -34,6 +34,8 @@ class LuckyMoney extends React.Component {
     }
     let amount = parseInt($("#amountLuckyMoney").val()) || 0;
     const envelope = parseInt($("#amountEnvelope").val()) || 0;
+    $("#amountLuckyMoney").val(0);
+    $("#amountEnvelope").val(0);
     if (envelope<1){
       message.error("Minimum amount envelopes is 1");
       $("#amountEnvelope").focus();
@@ -75,8 +77,7 @@ class LuckyMoney extends React.Component {
       equal: this.state.value,
     };
     this.props.changeRequest(sendLuckyMoney);
-    $("#amountLuckyMoney").val(0);
-    $("#amountEnvelope").val(0);
+    
     this.props.changeStateLuckyMoneyPopup(false);
     this.props.changeStatePinPopup(true);
   };
@@ -115,7 +116,7 @@ class LuckyMoney extends React.Component {
       <div>
         <Modal
           width="420px"
-          title="Transfer"
+          title="Lucky Money"
           visible={this.props.luckyMoneyPopup}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
