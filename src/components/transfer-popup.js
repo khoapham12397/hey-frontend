@@ -25,7 +25,7 @@ class TransferPopup extends React.Component {
       return;
     }
     const amount = parseInt($("#amount_transfer").val());
-    const message = $("#message_transfer").val();
+    const message_trans = $("#message_transfer").val();
     $("#amount_transfer").val(0);
     $("#message_transfer").val("");
     console.log($("#amount_transfer").val())
@@ -48,7 +48,7 @@ class TransferPopup extends React.Component {
     var transfer = {
       type: "transfer",
       amount,
-      message: $("#message_transfer").val(),
+      message: message_trans,
       userId: this.props.transfer.userId,
     };
     this.props.changeRequest(transfer);

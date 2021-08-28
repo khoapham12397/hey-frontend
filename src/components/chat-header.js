@@ -2,7 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import { Button } from "antd";
 import CustomAvatar from "./custom-avatar";
-import { changeStateTransferPopup, changeTransfer, changeStateLuckyMoneyPopup } from "../actions/walletAction";
+import {
+  changeStateTransferPopup,
+  changeTransfer,
+  changeStateLuckyMoneyPopup,
+} from "../actions/walletAction";
 class ChatHeader extends React.Component {
   handleTransferClick = () => {
     // console.log(this.props.header.userId)
@@ -11,15 +15,16 @@ class ChatHeader extends React.Component {
     //   avatar: this.props.header.avatar,
     //   userId: this.props.header.userId,
     // })
-    if(this.props.wallet);
-      this.props.changeStateTransferPopup(true);
+    if (this.props.wallet);
+    this.props.changeStateTransferPopup(true);
   };
 
   handleLuckyMoney = () => {
     this.props.changeStateLuckyMoneyPopup(true);
-  }
+  };
 
   render() {
+    console.log(this.props.header.groupchat);
     return (
       <div className="chat-header">
         <div style={{ width: 50 }}>
@@ -38,21 +43,33 @@ class ChatHeader extends React.Component {
           <div className="panel-message">{this.props.header.title}</div>
         </div>
         <div style={{ marginLeft: "auto" }}>
-          {this.props.header.groupchat ? (
-            <Button type="danger" shape="round" icon="container" size="large" onClick={this.handleLuckyMoney}>
-              Lucky money
-            </Button>
-          ) : (
-            <Button
-              type="primary"
-              shape="round"
-              icon="transaction"
-              size="large"
-              onClick={this.handleTransferClick}
-            >
-              Transfer
-            </Button>
-          )}
+          {
+            {
+              true: (
+                <Button
+                  type="danger"
+                  shape="round"
+                  icon="container"
+                  size="large"
+                  onClick={this.handleLuckyMoney}
+                >
+                  Lucky money
+                </Button>
+              ),
+              false: (
+                <Button
+                  type="primary"
+                  shape="round"
+                  icon="transaction"
+                  size="large"
+                  onClick={this.handleTransferClick}
+                >
+                  Transfer
+                </Button>
+              ),
+              undefined: "",
+            }[this.props.header.groupchat]
+          }
         </div>
       </div>
     );
@@ -71,7 +88,7 @@ function mapDispatchToProps(dispatch) {
     changeStateTransferPopup(state) {
       dispatch(changeStateTransferPopup(state));
     },
-    changeTransfer(transfer){
+    changeTransfer(transfer) {
       dispatch(changeTransfer(transfer));
     },
     changeStateLuckyMoneyPopup(state) {

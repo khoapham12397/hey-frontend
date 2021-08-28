@@ -87,17 +87,26 @@ function callGetBalanceApi(wallet) {
 }
 
 function topUpAction(result) {
-    message.success(result.data.message);
-    return {
-        type: TOP_UP,
-        amount: result.data.amount,
-    };
+    try {
+        console.log(result.data)
+        message.success(`Top up ${result.data.amount}đ`);
+        return {
+            type: TOP_UP,
+            amount: result.data.amount,
+        };
+    } catch (error) {
+        message.error(result.error)
+        return {
+            type: TOP_UP,
+            amount: 0,
+        }
+    }
 }
 
 export function topUpWallet(topUp) {
     return function(dispatch) {
         return callTopUpApi(topUp).then(result => {
-            dispatch(topUpAction(result.data,));
+            dispatch(topUpAction(result.data));
         });
     };   
 }
